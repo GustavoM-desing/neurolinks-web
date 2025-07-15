@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neurolinks - Asistente IA para Ventas y Atención al Cliente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Light background for the landing page */
+            color: #333;
+        }
+        .header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .hero-section {
+            background-color: #f0f2f5; /* Matches the phone background slightly */
+            padding: 6rem 1rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .cta-button {
+            background-color: #075e54; /* WhatsApp green */
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 10px rgba(7, 94, 84, 0.3);
+        }
+        .cta-button:hover {
+            background-color: #054a42;
+        }
+        .features-section {
+            background-color: #ffffff;
+            padding: 4rem 1rem;
+        }
+        .feature-card {
+            background-color: #f8fafc;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        .footer {
+            background-color: #1a202c;
+            color: #cbd5e0;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        /* Phone specific styles (copied from previous immersive) */
+        .phone-container {
+            position: relative;
+            width: 320px; /* Standard smartphone width */
+            height: 640px; /* Standard smartphone height */
+            background-color: #000;
+            border-radius: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 0 0 8px #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            margin: 2rem auto; /* Center the phone on the page */
+        }
+        .screen {
+            flex-grow: 1;
+            background-color: #e5ddd5; /* WhatsApp chat background */
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            overflow-y: auto;
+            position: relative;
+        }
+        .chat-bubble {
+            max-width: 80%;
+            padding: 8px 12px;
+            border-radius: 15px;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            word-wrap: break-word;
+            position: relative;
+        }
+        .chat-bubble.bot {
+            background-color: #dcf8c6; /* WhatsApp green */
+            align-self: flex-start;
+            border-bottom-left-radius: 3px;
+            color: #1a1a1a;
+        }
+        .chat-bubble.user {
+            background-color: #ffffff; /* Light grey/white */
+            align-self: flex-end;
+            border-bottom-right-radius: 3px;
+            color: #1a1a1a;
+        }
+        .profile-picture {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #ccc;
+            margin-right: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .message-row {
+            display: flex;
+            align-items: flex-end;
+            margin-bottom: 5px;
+        }
+        .message-row.user-row {
+            justify-content: flex-end;
+        }
+        .input-area {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            background-color: #f0f0f0;
+            border-top: 1px solid #e0e0e0;
+        }
+        .input-field {
+            flex-grow: 1;
+            background-color: #fff;
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 14px;
+            border: none;
+            outline: none;
+            margin-right: 8px;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .send-button {
+            background-color: #075e54; /* WhatsApp send button green */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .microphone-icon {
+            color: #555;
+            font-size: 20px;
+            margin-left: 8px;
+        }
+        .emoji-overlay {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0.8;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .emoji-handshake {
+            top: 15%;
+            left: 5%;
+            transform: rotate(-15deg);
+        }
+        .emoji-rocket {
+            bottom: 5%;
+            left: 5%;
+            transform: rotate(20deg);
+        }
+        .emoji-lightbulb {
+            top: 5%;
+            right: 5%;
+            transform: rotate(10deg);
+        }
+        /* Notch for modern phones */
+        .notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 25px;
+            background-color: #000;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            z-index: 20;
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 768px) {
+            .hero-section {
+                flex-direction: row;
+                text-align: left;
+                padding: 8rem 2rem;
+            }
+            .hero-content {
+                max-width: 50%;
+                margin-right: 4rem;
+            }
+            .phone-container {
+                margin: 0;
+            }
+        }
+        /* Styles for Google Form iframe */
+        .google-form-iframe {
+            width: 100%;
+            /* Removed fixed height here to allow iframe's inline height to take precedence */
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header py-4 px-6 flex justify-between items-center shadow-sm">
+        <div class="text-2xl font-bold text-gray-800">Neurolinks</div>
+        <nav>
+            <ul class="flex space-x-4 text-gray-600">
+                <li><a href="#inicio" class="hover:text-gray-900">Inicio</a></li>
+                <li><a href="#caracteristicas" class="hover:text-gray-900">Características</a></li>
+                <li><a href="#contacto-form" class="hover:text-gray-900">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero-section">
+        <div class="hero-content max-w-xl mx-auto md:mx-0">
+            <h1 class="text-5xl md:text-6xl font-extrabold leading-tight mb-4 text-gray-900">
+                Transforma tu WhatsApp en un punto de atencion al cliente 24/7
+            </h1>
+            <p class="text-lg md:text-xl text-gray-700 mb-8">
+                Presentamos Robot IA de Neurolinks: la solución inteligente que transforma tu comunicación y eleva la experiencia de tus clientes.
+            </p>
+            <a href="#contacto-form" class="cta-button inline-block">
+                ¡Empieza Ahora!
+            </a>
+        </div>
+
+        <!-- Smartphone Illustration (Integrated) -->
+        <div class="phone-container">
+            <div class="notch"></div>
+            <div class="screen">
+                <!-- Chat messages -->
+                <div class="message-row">
+                    <div class="profile-picture">🤖</div>
+                    <div class="chat-bubble bot">
+                        ¡Hola! Soy tu Asistente IA de Neurolinks. ¿En qué puedo ayudarte hoy? 😊
+                    </div>
+                </div>
+                <div class="message-row user-row">
+                    <div class="chat-bubble user">
+                        Necesito optimizar mis ventas y atención al cliente. 🚀
+                    </div>
+                </div>
+
+                <!-- Subtle emoji overlays -->
+                <div class="emoji-overlay emoji-handshake">🤝</div>
+                <div class="emoji-overlay emoji-lightbulb">💡</div>
+                <div class="emoji-overlay emoji-rocket">🚀</div>
+
+            </div>
+            <div class="input-area">
+                <input type="text" class="input-field" placeholder="Escribe un mensaje...">
+                <div class="send-button">
+                    <!-- SVG for send icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M3.478 2.405a.75.75 0 0 0-.926.94l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.405Z" />
+                    </svg>
+                </div>
+                <div class="microphone-icon">
+                    <!-- SVG for microphone icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M8.25 4.5a3.75 3.75 0 1 1 7.5 0v8.25a3.75 3.75 0 1 1-7.5 0V4.5Z" />
+                        <path d="M6 10.5a.75.75 0 0 1 .75.75v1.5a5.25 5.25 0 1 0 10.5 0v-1.5a.75.75 0 0 1 1.5 0v1.5a6.75 6.75 0 1 1-13.5 0v-1.5A.75.75 0 0 1 6 10.5Z" />
+                        <path d="M9.75 18a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V18a.75.75 0 0 1 .75-.75Z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección "Sobre Neurolinks" -->
+    <section class="py-12 px-6 bg-white text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-900">Somos Neurolinks: Tu Socio en Transformación Digital IA</h2>
+        <div class="max-w-3xl mx-auto text-lg text-gray-700 leading-relaxed">
+            <p class="mb-4">**Neurolinks es una empresa de tecnología de la información** especializada en **soluciones de Inteligencia Artificial a medida.** Desarrollamos herramientas totalmente adaptadas a tus productos, servicios y procesos de negocio.</p>
+            <p>Nuestro enfoque es transformar digitalmente tu empresa, optimizando la comunicación, potenciando tus ventas y mejorando la atención al cliente con la IA.</p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="caracteristicas" class="features-section py-12 px-6">
+        <h2 class="text-4xl font-bold text-center mb-12 text-gray-900">¿Por qué elegir Neurolinks?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div class="feature-card">
+                <div class="text-5xl mb-4">💬</div>
+                <h3 class="text-xl font-semibold mb-2 text-gray-800">Comunicación Instantánea</h3>
+                <p class="text-gray-600">Garantizá atención **24/7** en tus canales clave como WhatsApp, resolviendo dudas y calificando leads al instante, sin esperas.</p>
+            </div>
+            <div class="feature-card">
+                <div class="text-5xl mb-4">📈</div>
+                <h3 class="text-xl font-semibold mb-2 text-gray-800">Incrementa tus Ventas</h3>
+                <p class="text-gray-600">Nuestros bots utilizan **neuroventas** para guiar al cliente por el embudo, responder objeciones y cerrar más ventas, incluso cuando tu equipo descansa.</p>
+            </div>
+            <div class="feature-card">
+                <div class="text-5xl mb-4">⭐</div>
+                <h3 class="text-xl font-semibold mb-2 text-gray-800">Mejora la Satisfacción</h3>
+                <p class="text-gray-600">Brindá una experiencia de cliente fluida y personalizada, anticipando sus necesidades y construyendo relaciones duraderas que fidelizan.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="py-16 px-6 bg-[#075e54] text-white text-center">
+        <h2 class="text-4xl font-bold mb-4">¿Listo para transformar tu negocio?</h2>
+        <p class="text-lg mb-8">Únete a la revolución de la IA y lleva tus ventas y atención al cliente al siguiente nivel.</p>
+        <a href="#contacto-form" class="cta-button bg-white text-[#075e54] hover:bg-gray-100">
+            Solicitar Demostración
+        </a>
+    </section>
+
+    <!-- Formulario de Contacto (con Google Form incrustado) -->
+    <section id="contacto-form" class="py-16 px-6 bg-gray-100">
+        <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-xl">
+            <h2 class="text-4xl font-bold text-center mb-6 text-gray-900">Agenda tu Demo Gratuita</h2>
+            <p class="text-lg text-center text-gray-700 mb-8">Descubre en 15 minutos cómo un Asistente IA de Neurolinks puede transformar tus ventas y atención al cliente. Sin compromiso.</p>
+
+            <!-- Código iframe de tu formulario de Google -->
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc0zq7QiEkK9Z9b12JTWdoWE6Izwe3cD9VBkm4J_O5FNuAhXw/viewform?embedded=true" width="100%" height="1600" frameborder="0" marginheight="0" marginwidth="0" class="google-form-iframe">Cargando…</iframe>
+
+            <p class="text-center text-gray-600 mt-4 text-sm mb-4">
+                ¿Prefieres una consulta rápida por WhatsApp?</p><a href="https://wa.link/bwu5qs" target="_blank" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[#25D366] hover:bg-[#1DA851] shadow-md transition-colors duration-300">
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.531-3.844-1.531-5.873C.213 6.576 6.009.026 12.045.026c3.084 0 5.922 1.2 8.07 3.328 2.146 2.127 3.315 4.954 3.315 7.915-.002 6.075-5.834 11.026-12.062 11.026-1.92 0-3.805-.486-5.467-1.488L.057 24zm6.597-3.807l-.463-.272c-1.04-.613-1.96-1.458-2.735-2.464-.78-.999-1.428-2.122-1.91-3.328.48-1.205 1.128-2.328 1.91-3.328.775-1.006 1.695-1.851 2.735-2.464l.463-.272.234-.482c.118-.248.212-.5.28-.75.068-.25.102-.508.102-.767-.001-.424-.078-.847-.234-1.258-.156-.411-.382-.796-.677-1.144-.294-.347-.64-.664-1.03- .943-.39-.279-.824-.488-1.298-.627-.474-.139-.976-.208-1.498-.208-1.39 0-2.673.498-3.727 1.484-1.054.986-1.848 2.274-2.348 3.738C.498 12.016 0 13.626 0 15.31c0 2.234.697 4.31 2.012 5.925l.458.567-1.63 5.98zM12.045 1.526c-2.909 0-5.631 1.13-7.683 3.14-2.052 2.01-3.176 4.673-3.176 7.464 0 1.96.484 3.844 1.442 5.518l.24.417-1.536 5.617 5.753-1.688.423.238c1.674.94 3.535 1.442 5.434 1.442 5.469 0 9.914-4.28 9.914-9.554C21.958 5.795 17.514 1.526 12.045 1.526zM17.474 15.524c-.067.039-.413.205-.487.234-.074.029-.447.224-.514.24-.067.014-.144.022-.22.01-.077-.013-.189-.074-.298-.168-.108-.094-.258-.234-.366-.373-.108-.14-.216-.168-.3-.127-.084.04-.263.131-.341.17-.078.039-.156.049-.22.029-.067-.02-.19-.074-.359-.127-.168-.052-.42-.14-.793-.482-.373-.342-.997-.988-1.436-1.748-.439-.76-.73-1.704-.73-1.798 0-.094.067-.144.134-.211.067-.07.149-.164.22-.24.071-.076.149-.144.201-.19.05-.049.099-.07.134-.11.034-.04.017-.07-.008-.119-.024-.048-.22-.527-.308-.727-.088-.2-.176-.24-.263-.24-.084 0-.174-.004-.264-.004-.088 0-.229.033-.349.14-.12.108-.458.447-.594.586-.134.139-.234.211-.47.337-.234.127-.47.248-.69.349-.22.1-.383.153-.487.14-.102-.014-.239-.052-.369-.1-.129-.048-.27-.184-.423-.482-.153-.298-.306-.777-.306-.853 0-.084.102-.127.201-.24.099-.11.22-.248.3-.377.081-.13.16-.298.22-.437.06-.14.03-.258-.02-.369-.05-.11-.458-1.1-.63-1.503-.17-.403-.346-.35-.487-.35-.144-.003-.306-.003-.474-.003-.168 0-.442.062-.676.24-.234.17-.893.879-.893 2.148 0 1.27.91 2.484 1.039 2.651.129.168 1.77 2.706 4.29 3.738 2.52 1.033 2.52 1.084 2.97 1.458.449.373.856.495 1.15.586.294.092.65.077.886.049.239-.028.77-.314.88-.613.11-.299.11-.555.078-.613-.03-.06-.11-.089-.234-.14Z" />
+                </svg>
+                ¡Habla con un asesor ahora mismo!</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer py-8">
+        <p>&copy; 2025 Neurolinks. Todos los derechos reservados. <a href="https://clientesneurolinks.com/" class="hover:text-white" target="_blank">clientesneurolinks.com</a></p>
+        <div class="flex justify-center space-x-4 mt-4">
+            <a href="https://clientesneurolinks.com/politica-de-privacidad.html" class="hover:text-white" target="_blank">Política de Privacidad</a>
+            <a href="https://clientesneurolinks.com/terminos-de-servicio.html" class="hover:text-white" target="_blank">Términos de Servicio</a>
+        </div>
+    </footer>
+</body>
+</html>
